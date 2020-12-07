@@ -15,7 +15,7 @@ services:
     depends_on:
       - db
   db:
-    image: mariadb:10.4
+    image: mariadb:latest
     volumes:
       - "./dump:/docker-entrypoint-initdb.d"
       - "v-db:/var/lib/mysql"
@@ -23,6 +23,7 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=admin
-    command: 'mysqld --innodb-flush-method=fsync --sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTIO"'
+      - MYSQL_DATABASE=dtt
+    command: 'mysqld --sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTIO"'
 volumes:
   v-db:

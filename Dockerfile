@@ -108,14 +108,14 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 RUN composer global require phalcon/devtools
 
-# # Phalcon DevTools with git
-# RUN git clone git://github.com/phalcon/phalcon-devtools.git /var/git/phalcon-devtools/ && \
-#     bash /var/git/phalcon-devtools/phalcon.sh && \
-#     ln -s /var/git/phalcon-devtools/phalcon /usr/bin/phalcon && \
-#     chmod ugo+x /usr/bin/phalcon
+
+# Install PHP_CodeSniffer
+RUN composer global require "squizlabs/php_codesniffer=*"
+
+# Setup working directory
+WORKDIR /var/www/html
+COPY ["src/composer.json", "src/composer.json", "/var/www/html/"]
+RUN composer install
 
 # Print CA certificate
 RUN cat /var/server-conf/rootCA.pem
-
-# Final workdir
-WORKDIR /var/www/html
