@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
-
 use Phalcon\Di\FactoryDefault;
 use Dotenv\Dotenv;
+use Phalcon\Mvc\Micro;
 
 error_reporting(E_ALL);
 
@@ -10,12 +10,11 @@ define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
 try {
+    /**
+     * Include Composer Autoloader
+     */
     require_once BASE_PATH . '/vendor/autoload.php';
 
-    /**
-     * Load .env configurations
-     */
-    Dotenv::create(BASE_PATH)->load();
     $di = new FactoryDefault();
 
     /**
@@ -34,16 +33,18 @@ try {
     $config = $di->getConfig();
 
     /**
-     * Include Autoloader
+     * Include Phalcon Autoloader
      */
     include APP_PATH . '/config/loader.php';
 
     /**
      * Handle the request
      */
-    $application = new \Phalcon\Mvc\Application($di);
+    $application = new Micro();
+    $application->setDI($di);
 
-    echo $application->handle($_SERVER['REQUEST_URI'])->getContent();
+    echo $application->handle($_SERVER["REQUEST_URI"]);
+
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
