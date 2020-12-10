@@ -1,8 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Models;
 
-class Persons extends \Phalcon\Mvc\Model
+use Phalcon\Mvc\Model;
+
+class Persons extends Model
 {
 
     /**
@@ -73,22 +75,11 @@ class Persons extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Persons[]|Persons|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Persons[]|Persons|Model\ResultSetInterface
      */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public static function find($parameters = null): Model\ResultsetInterface
     {
         return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Persons|\Phalcon\Mvc\Model\ResultInterface
-     */
-    public static function findFirst($parameters = null)
-    {
-        return parent::findFirst($parameters);
     }
 
 }

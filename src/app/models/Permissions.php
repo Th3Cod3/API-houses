@@ -1,8 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Models;
 
-class Permissions extends \Phalcon\Mvc\Model
+use Phalcon\Mvc\Model;
+
+class Permissions extends Model
 {
 
     /**
@@ -37,22 +39,11 @@ class Permissions extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Permissions[]|Permissions|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Permissions[]|Permissions|Model\ResultSetInterface
      */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public static function find($parameters = null): Model\ResultsetInterface
     {
         return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Permissions|\Phalcon\Mvc\Model\ResultInterface
-     */
-    public static function findFirst($parameters = null)
-    {
-        return parent::findFirst($parameters);
     }
 
 }

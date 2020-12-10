@@ -1,8 +1,10 @@
 <?php
 
-namespace Model;
+namespace App\Models;
 
-class RoomTypes extends \Phalcon\Mvc\Model
+use Phalcon\Mvc\Model;
+
+class RoomTypes extends Model
 {
 
     /**
@@ -31,22 +33,11 @@ class RoomTypes extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return RoomTypes[]|RoomTypes|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return RoomTypes[]|RoomTypes|Model\ResultSetInterface
      */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public static function find($parameters = null): Model\ResultsetInterface
     {
         return parent::find($parameters);
-    }
-
-    /**
-     * Allows to query the first record that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return RoomTypes|\Phalcon\Mvc\Model\ResultInterface
-     */
-    public static function findFirst($parameters = null)
-    {
-        return parent::findFirst($parameters);
     }
 
 }

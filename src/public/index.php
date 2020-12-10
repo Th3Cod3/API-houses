@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 use Phalcon\Di\FactoryDefault;
-use Dotenv\Dotenv;
 use Phalcon\Mvc\Micro;
 
 error_reporting(E_ALL);
@@ -40,8 +39,7 @@ try {
     /**
      * Handle the request
      */
-    $application = new Micro();
-    $application->setDI($di);
+    $application = new Micro($di);
 
     echo $application->handle($_SERVER["REQUEST_URI"]);
 
