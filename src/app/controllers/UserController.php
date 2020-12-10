@@ -20,7 +20,7 @@ class UserController extends ControllerBase
         echo "UserController list";
     }
 
-    public function permissions(int $id)
+    public function permissions()
     {
         echo "UserController permissions";
     }

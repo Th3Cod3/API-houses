@@ -12,7 +12,7 @@ use Phalcon\Mvc\Micro\Collection;
 $api = new Collection;
 
 $api->setHandler(new IndexController)
-    ->get('/login', 'login');
+    ->post('/login', 'login');
 
 $app->mount($api);
 
@@ -21,7 +21,7 @@ $user = new Collection;
 $user->setHandler(new UserController)
     ->setPrefix('/user')
     ->post('/', 'add')
-    ->get('/{id}', 'get')
+    ->get('/{id:[0-9]*}', 'get')
     ->get('/list', 'list')
     ->get('/permissions', 'permissions');
 
@@ -32,9 +32,9 @@ $house = new Collection;
 $house->setHandler(new HouseController)
     ->setPrefix('/house')
     ->post('/', 'add')
-    ->get('/{id}', 'get')
-    ->put('/{id}', 'edit')
-    ->delete('/{id}', 'remove')
+    ->get('/{id:[0-9]*}', 'get')
+    ->put('/{id:[0-9]*}', 'edit')
+    ->delete('/{id:[0-9]*}', 'remove')
     ->get('/list', 'list');
 
 $app->mount($house);
