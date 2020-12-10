@@ -1,7 +1,19 @@
 <?php
+/*
+ * this variable comes from the index.php
+ * @var $app
+ */
 
-$router = $di->getRouter();
+use App\Controllers\IndexController;
+use Phalcon\Mvc\Micro\Collection;
 
-// Define your routes here
+$api = new Collection;
 
-$router->handle($_SERVER['REQUEST_URI']);
+$api->setHandler(new IndexController)
+    ->get('/login', 'login');
+
+
+$app->mount($api);
+
+
+

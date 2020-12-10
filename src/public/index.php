@@ -22,11 +22,6 @@ try {
     include APP_PATH . '/config/services.php';
 
     /**
-     * Handle routes
-     */
-    include APP_PATH . '/config/router.php';
-
-    /**
      * Get config service for use in inline setup below
      */
     $config = $di->getConfig();
@@ -39,9 +34,14 @@ try {
     /**
      * Handle the request
      */
-    $application = new Micro($di);
+    $app = new Micro($di);
 
-    echo $application->handle($_SERVER["REQUEST_URI"]);
+    /**
+     * Handle routes
+     */
+    include APP_PATH . '/config/router.php';
+
+    echo $app->handle($_SERVER['REQUEST_URI']);
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
