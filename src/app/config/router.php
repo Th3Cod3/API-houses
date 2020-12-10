@@ -6,6 +6,7 @@
 
 use App\Controllers\IndexController;
 use App\Controllers\UserController;
+use App\Controllers\HouseController;
 use Phalcon\Mvc\Micro\Collection;
 
 $api = new Collection;
@@ -25,6 +26,18 @@ $user->setHandler(new UserController)
     ->get('/permissions', 'permissions');
 
 $app->mount($user);
+
+$house = new Collection;
+
+$house->setHandler(new HouseController)
+    ->setPrefix('/house')
+    ->post('/', 'add')
+    ->get('/{id}', 'get')
+    ->put('/{id}', 'edit')
+    ->delete('/{id}', 'remove')
+    ->get('/list', 'list');
+
+$app->mount($house);
 
 
 
