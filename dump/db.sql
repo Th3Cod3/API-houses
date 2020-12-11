@@ -22,10 +22,22 @@ CREATE TABLE IF NOT EXISTS roles (
 
 CREATE TABLE IF NOT EXISTS permissions (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    role_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL
     PRIMARY KEY (id),
-    CONSTRAINT fk_permission_role
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS role_permissions (
+    id INT NOT NULL AUTO_INCREMENT,
+    role_id INT NOT NULL,
+    permission_id INT NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY u_role_permission (role_id, permission_id),
+    CONSTRAINT fk_action_permission
+        FOREIGN KEY (permission_id)
+        REFERENCES permissions(id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_action_role
         FOREIGN KEY (role_id)
         REFERENCES roles(id)
         ON UPDATE CASCADE
