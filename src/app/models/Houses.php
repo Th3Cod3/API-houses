@@ -72,21 +72,10 @@ class Houses extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("houses");
-        $this->hasMany('id', 'Model\Rooms', 'house_id', ['alias' => 'Rooms']);
-        $this->belongsTo('user_id', 'Model\Users', 'id', ['alias' => 'Users']);
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Houses[]|Houses|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
+        $this->hasMany('id', Rooms::class, 'house_id', ['alias' => 'Rooms']);
+        $this->belongsTo('user_id', Users::class, 'id', ['alias' => 'Users']);
     }
 
 }

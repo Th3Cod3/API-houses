@@ -66,20 +66,9 @@ class Persons extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("persons");
-        $this->hasMany('id', 'Model\Users', 'person_id', ['alias' => 'Users']);
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Persons[]|Persons|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
+        $this->hasOne('id', Users::class, 'person_id', ['alias' => 'Users']);
     }
 
 }

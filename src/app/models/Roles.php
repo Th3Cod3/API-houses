@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model;
+use \Phalcon\Mvc\Model;
 
 class Roles extends Model
 {
@@ -24,21 +24,20 @@ class Roles extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("roles");
-        $this->hasMany('id', 'Model\Permissions', 'role_id', ['alias' => 'Permissions']);
-        $this->hasMany('id', 'Model\Users', 'role_id', ['alias' => 'Users']);
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Roles[]|Roles|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
+        $this->hasManyToMany(
+            'id',
+            RolePermissions::class,
+            'role_id',
+            'permission_id',
+            Permissions::class,
+            'id',
+            [
+                'reusable' => true,
+                'alias'    => 'products',
+            ]
+        );
     }
 
 }

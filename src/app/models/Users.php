@@ -115,22 +115,19 @@ class Users extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("users");
-        $this->hasMany('id', 'Model\Houses', 'user_id', ['alias' => 'Houses']);
-        $this->belongsTo('person_id', 'Model\Persons', 'id', ['alias' => 'Persons']);
-        $this->belongsTo('role_id', 'Model\Roles', 'id', ['alias' => 'Roles']);
+        $this->hasMany('id', Houses::class, 'user_id', ['alias' => 'Houses']);
+        $this->belongsTo('person_id', Persons::class, 'id', ['alias' => 'Persons']);
+        $this->belongsTo('role_id', Roles::class, 'id', ['alias' => 'Roles']);
     }
 
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Users[]|Users|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
-    }
+    // /**
+    //  * Set all default values.
+    //  */
+    // public function beforeCreate()
+    // {
+    //     $this->created_at = date("Y-m-d H:i:s");
+    // }
 
 }

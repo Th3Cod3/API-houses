@@ -24,20 +24,9 @@ class RoomTypes extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("room_types");
-        $this->hasMany('id', 'Model\Rooms', 'type_id', ['alias' => 'Rooms']);
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return RoomTypes[]|RoomTypes|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
+        $this->hasMany('id', Rooms::class, 'type_id', ['alias' => 'Rooms']);
     }
 
 }

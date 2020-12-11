@@ -66,21 +66,10 @@ class Rooms extends Model
      */
     public function initialize()
     {
-        $this->setSchema("dtt");
+        $this->setSchema($_ENV["DB_NAME"]);
         $this->setSource("rooms");
-        $this->belongsTo('house_id', 'Model\Houses', 'id', ['alias' => 'Houses']);
-        $this->belongsTo('type_id', 'Model\RoomTypes', 'id', ['alias' => 'RoomTypes']);
-    }
-
-    /**
-     * Allows to query a set of records that match the specified conditions
-     *
-     * @param mixed $parameters
-     * @return Rooms[]|Rooms|Model\ResultSetInterface
-     */
-    public static function find($parameters = null): Model\ResultsetInterface
-    {
-        return parent::find($parameters);
+        $this->belongsTo('house_id', Houses::class, 'id', ['alias' => 'Houses']);
+        $this->belongsTo('type_id', RoomTypes::class, 'id', ['alias' => 'RoomTypes']);
     }
 
 }
