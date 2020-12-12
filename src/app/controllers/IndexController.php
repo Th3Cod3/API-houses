@@ -2,17 +2,15 @@
 declare(strict_types=1);
 namespace App\Controllers;
 
+use App\Services\UsersManager;
+
 class IndexController extends ControllerBase
 {
 
     public function login()
     {
-        echo "It's me Mario!!";
-    }
+        return UsersManager::login($this->application);
 
-    public function default()
-    {
-        echo "404";
     }
 
 }

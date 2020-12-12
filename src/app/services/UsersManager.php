@@ -13,7 +13,7 @@ class UsersManager
      * Create all the transation of the creation of an user
      *
      * @param Micro $app
-     * @return bool|array
+     * @return array
      **/
     public static function createUser(Micro $app)
     {
@@ -49,6 +49,35 @@ class UsersManager
                 array_push($errors, (string) $message);
             }
             return Response::responseWrapper("fail", $errors);
+        }
+    }
+
+    /**
+     * Verify username and password matches and generate a JWT token
+     *
+     * @param Micro $app
+     * @return array
+     **/
+    public static function login(Micro $app)
+    {
+        $user = Users::findFirst([
+            "username = :username:",
+            "bind" => [
+                "username" => $app->request->getPost("username")
+            ]
+        ]);
+        if(
+            $user
+            && $app->request->getPost("password")
+            && $app->security->checkHash($app->request->getPost("password"), $user->password)
+        ){
+            $token = "";
+            return Response::responseWrapper(
+                "success",
+                ["token" => $token]
+            );
+        } else {
+            return Response::responseWrapper("fail", "Invalid username of password");
         }
     }
 }
