@@ -114,7 +114,7 @@ class Users extends Model
             new Uniqueness(
                 [
                     'model' => $this,
-                    'message' => 'The email must be unique',
+                    'message' => 'This email is already in use',
                 ]
             )
         );
@@ -124,7 +124,7 @@ class Users extends Model
             new Uniqueness(
                 [
                     'model' => $this,
-                    'message' => 'The username must be unique',
+                    'message' => 'this username is already in use',
                 ]
             )
         );

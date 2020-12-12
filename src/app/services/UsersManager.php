@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Persons;
 use App\Models\Users;
+use App\Helpers\Response;
 use Phalcon\Mvc\Micro;
 
 class UsersManager
@@ -34,13 +35,20 @@ class UsersManager
         $user->password = $app->security->hash($app->request->getPost("password"));
         $user->Persons = $person;
         if($user->save()){
-            return true;
+            return Response::responseWrapper(
+                "success",
+                $user->toArray([
+                    "id",
+                    "username",
+                    "email"
+                ])
+            );
         } else {
             $errors = [];
             foreach($user->getMessages() as $message){
                 array_push($errors, (string) $message);
             }
-            return ["errors" => $errors];
+            return Response::responseWrapper("fail", $errors);
         }
     }
 }
