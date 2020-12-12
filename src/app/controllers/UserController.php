@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace App\Controllers;
 
+use App\Models\Users;
+use App\Services\UsersManager;
+
 class UserController extends ControllerBase
 {
 
     public function add()
     {
-        echo "UserController add";
+        return UsersManager::createUser($this->application);
     }
 
     public function get(int $id)

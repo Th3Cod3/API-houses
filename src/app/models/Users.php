@@ -6,10 +6,12 @@ namespace App\Models;
 use Phalcon\Mvc\Model;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\Uniqueness;
 
 class Users extends Model
 {
 
+    const DEFAULT_ROLE = 1;
     /**
      *
      * @var integer
@@ -101,8 +103,28 @@ class Users extends Model
             'email',
             new EmailValidator(
                 [
-                    'model'   => $this,
+                    'model' => $this,
                     'message' => 'Please enter a correct email address',
+                ]
+            )
+        );
+
+        $validator->add(
+            'email',
+            new Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'The email must be unique',
+                ]
+            )
+        );
+
+        $validator->add(
+            'username',
+            new Uniqueness(
+                [
+                    'model' => $this,
+                    'message' => 'The username must be unique',
                 ]
             )
         );
@@ -120,14 +142,25 @@ class Users extends Model
         $this->hasMany('id', Houses::class, 'user_id', ['alias' => 'Houses']);
         $this->belongsTo('person_id', Persons::class, 'id', ['alias' => 'Persons']);
         $this->belongsTo('role_id', Roles::class, 'id', ['alias' => 'Roles']);
+        $this->useDynamicUpdate(true);
     }
 
-    // /**
-    //  * Set all default values.
-    //  */
-    // public function beforeCreate()
-    // {
-    //     $this->created_at = date("Y-m-d H:i:s");
-    // }
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnCreate()
+    {
+        $this->created_at = date("Y-m-d H:i:s");
+        $this->updated_at = date("Y-m-d H:i:s");
+        $this->role_id = self::DEFAULT_ROLE;
+    }
+    
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnUpdate()
+    {
+        $this->updated_at = date("Y-m-d H:i:s");
+    }
 
 }
