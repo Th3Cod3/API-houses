@@ -37,13 +37,12 @@ try {
     $app = new Micro($di);
 
     /**
-     * Handle routes
+     * Set the routes and middleware
      */
+    include APP_PATH . '/config/middleware.php';
     include APP_PATH . '/config/router.php';
 
-    echo $app->handle($_SERVER['REQUEST_URI']);
-
+    $app->handle($_SERVER['REQUEST_URI']);
 } catch (\Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+    echo json_encode(["error" => $e->getMessage()]);
 }

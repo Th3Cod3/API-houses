@@ -1,4 +1,5 @@
 <?php
+namespace App\Middleware;
 
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
@@ -17,7 +18,7 @@ class CORSMiddleware implements MiddlewareInterface
      * @param Event $event
      * @param Micro $app
      *
-     * @returns bool
+     * @return bool
      */
     public function beforeHandleRoute(Event $event, Micro $app)
     {
@@ -27,8 +28,7 @@ class CORSMiddleware implements MiddlewareInterface
             $origin = '*';
         }
 
-        $app
-            ->response
+        $app->response
             ->setHeader('Access-Control-Allow-Origin', $origin)
             ->setHeader(
                 'Access-Control-Allow-Methods',
@@ -47,7 +47,7 @@ class CORSMiddleware implements MiddlewareInterface
      *
      * @param Micro $app
      *
-     * @returns bool
+     * @return bool
      */
     public function call(Micro $app)
     {
