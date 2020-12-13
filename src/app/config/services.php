@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 use App\Modules\JWT;
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Url as UrlResolver;
 
@@ -60,4 +62,44 @@ $di->setShared('db', function () {
  */
 $di->setShared('jwt', function () {
     return new JWT();
+});
+
+/**
+ * Shared jwt
+ */
+$di->setShared('acl', function () {
+
+    $acl = new Memory();
+
+    $acl->setDefaultAction(Enum::DENY);
+
+    $acl->addRole('User');
+    $acl->addRole('Admin');
+
+    $acl->addInherit('Admin', 'User');
+
+    $arrResources = [
+        'User' => [
+            'User' => ['permissions'],
+            'House' => ['add', 'get', 'edit', 'remove', 'list'],
+        ],
+        'Admin' => [
+            'User' => ['add', 'get'],
+        ],
+    ];
+
+    foreach ($arrResources as $arrControllers) {
+        foreach ($arrControllers as $controller => $methods) {
+            $acl->addComponent($controller, $methods);
+        }
+    }
+
+    foreach ($acl->getRoles() as $objRole) {
+        $roleName = $objRole->getName();
+        foreach ($arrResources[$roleName] as $controller => $methods) {
+            $acl->allow($roleName, $controller, $methods);
+        }
+    }
+
+    return $acl;
 });
