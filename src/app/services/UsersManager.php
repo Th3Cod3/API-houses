@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Helpers\JWT;
 use App\Models\Persons;
 use App\Models\Users;
 use App\Helpers\Response;

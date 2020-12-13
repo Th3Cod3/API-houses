@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Modules;
 
 use App\Models\Users;
 use Lcobucci\Clock\FrozenClock;

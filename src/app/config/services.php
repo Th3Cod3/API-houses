@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Helpers\JWT;
+use App\Modules\JWT;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Url as UrlResolver;
 

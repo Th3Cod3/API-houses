@@ -10,7 +10,6 @@ class IndexController extends ControllerBase
     public function login()
     {
         return UsersManager::login($this->application);
-
     }
 
 }
