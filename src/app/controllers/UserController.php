@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace App\Controllers;
 
-use App\Models\Users;
 use App\Services\UsersManager;
 
 class UserController extends ControllerBase
