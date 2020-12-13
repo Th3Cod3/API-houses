@@ -10,7 +10,7 @@ use Phalcon\Mvc\Micro;
 class UsersManager
 {
     /**
-     * Create all the transation of the creation of an user
+     * Create all the transaction of the creation of an user
      *
      * @param Micro $app
      * @return array

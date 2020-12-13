@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace App\Controllers;
 
+use App\Services\HousesManager;
+
 class HouseController extends ControllerBase
 {
 
@@ -23,6 +25,11 @@ class HouseController extends ControllerBase
     public function remove(int $id)
     {
         echo "HouseController remove";
+    }
+
+    public function types()
+    {
+        return HousesManager::allRoomType($this->application);
     }
 
     public function list()

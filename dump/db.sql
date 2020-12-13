@@ -145,3 +145,11 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES
 (2, 4),
 (2, 5),
 (2, 6);
+
+INSERT INTO room_types (id, name) VALUES
+(1, "Living room"),
+(2, "Bedroom"),
+(3, "Toilet"),
+(4, "Storage"),
+(5, "Bathroom"),
+(6, "Garage");

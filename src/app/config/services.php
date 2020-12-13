@@ -81,7 +81,7 @@ $di->setShared('acl', function () {
     $arrResources = [
         'User' => [
             'User' => ['permissions'],
-            'House' => ['add', 'get', 'edit', 'remove', 'list'],
+            'House' => ['add', 'get', 'edit', 'remove', 'list', "types"],
         ],
         'Admin' => [
             'User' => ['add', 'get'],
