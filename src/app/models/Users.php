@@ -52,13 +52,19 @@ class Users extends Model
      *
      * @var string
      */
+    public $jti;
+
+    /**
+     *
+     * @var string
+     */
     public $last_login;
 
     /**
      *
      * @var string
      */
-    public $first_fail;
+    public $last_fail;
 
     /**
      *

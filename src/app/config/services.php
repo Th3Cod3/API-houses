@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Helpers\JWT;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Url as UrlResolver;
 
@@ -52,4 +53,11 @@ $di->setShared('db', function () {
     }
 
     return new $class($params);
+});
+
+/**
+ * Shared jwt
+ */
+$di->setShared('jwt', function () {
+    return new JWT();
 });

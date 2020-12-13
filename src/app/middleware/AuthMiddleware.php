@@ -25,11 +25,12 @@ class AuthMiddleware implements MiddlewareInterface
         $request = $app->request;
         if(!preg_match("/\/+login\/*/", $request->getQuery("_url"))){
             if($token = Http::trimAuth($request)) {
-
-            } else {
-                $app->response->setStatusCode(401, "Unauthorized")->send();
-                return false;
+                if($app->jwt->parse($token)->validate()){
+                    return true;
+                }
             }
+            $app->response->setStatusCode(401, "Unauthorized")->send();
+            return false;
         }
 
     }

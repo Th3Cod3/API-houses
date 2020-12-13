@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\JWT;
 use App\Models\Persons;
 use App\Models\Users;
 use App\Helpers\Response;
@@ -66,18 +67,43 @@ class UsersManager
                 "username" => $app->request->getPost("username")
             ]
         ]);
+
+        $lastFailMinutesAgo = !$user ?: ((new \DateTime())->getTimestamp() - (new \DateTime($user->last_fail))->getTimestamp()) / 60;
+
         if(
             $user
+            && ($user->fail_counter < $_ENV["LOCK_FAIL_COUNTER"] || $lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"])
             && $app->request->getPost("password")
             && $app->security->checkHash($app->request->getPost("password"), $user->password)
         ){
-            $token = "";
+            $jti = $app->jwt->jtiGenerator();
+            $token = $app->jwt->create($user->id, $jti)->toString();
+
+            $user->last_login = date("Y-m-d H:i:s");
+            $user->jti = $jti;
+            $user->save();
+
             return Response::responseWrapper(
                 "success",
                 ["token" => $token]
             );
-        } else {
-            return Response::responseWrapper("fail", "Invalid username of password");
+        } else if ($user) {
+            // Lock user after multiple fail login
+            if($lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"]){
+                $user->fail_counter = 0;
+            }
+
+            if($user->fail_counter < $_ENV["LOCK_FAIL_COUNTER"] || $lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"]) {
+                $user->fail_counter++;
+                $user->last_fail = date("Y-m-d H:i:s");
+                $user->save();
+            } else {
+                $lockTime = \ceil($_ENV['USER_LOCK_TIME'] - $lastFailMinutesAgo);
+                return Response::responseWrapper("fail", "This user is locked. Wait $lockTime minutes");
+            }
         }
+
+        $app->security->hash(rand());
+        return Response::responseWrapper("fail", "Invalid username of password");
     }
 }
