@@ -9,7 +9,7 @@ class HouseController extends ControllerBase
 
     public function add()
     {
-        echo "HouseController add";
+        return HousesManager::createHouse($this->application);
     }
 
     public function get(int $id)

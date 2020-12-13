@@ -78,4 +78,21 @@ class Houses extends Model
         $this->belongsTo('user_id', Users::class, 'id', ['alias' => 'Users']);
     }
 
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnCreate()
+    {
+        $this->created_at = date("Y-m-d H:i:s");
+        $this->updated_at = date("Y-m-d H:i:s");
+    }
+
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnUpdate()
+    {
+        $this->updated_at = date("Y-m-d H:i:s");
+    }
+
 }

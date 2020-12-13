@@ -72,4 +72,20 @@ class Rooms extends Model
         $this->belongsTo('type_id', RoomTypes::class, 'id', ['alias' => 'RoomTypes']);
     }
 
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnCreate()
+    {
+        $this->created_at = date("Y-m-d H:i:s");
+        $this->updated_at = date("Y-m-d H:i:s");
+    }
+
+    /**
+     * Set all default values.
+     */
+    public function beforeValidationOnUpdate()
+    {
+        $this->updated_at = date("Y-m-d H:i:s");
+    }
 }
