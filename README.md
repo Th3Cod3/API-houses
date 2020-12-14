@@ -9,4 +9,4 @@
 * Save the key and import to the Thrusted Root Certification Authorities
 
 # DOCUMENTATION
-[API DOC](https://www.getpostman.com/collections/fe116fcefec3d1cb2a2a)
+[API DOC](https://documenter.getpostman.com/view/9519887/TVsoGq5R#c3134db1-408d-4a8e-9a72-a4bf662d1380)
