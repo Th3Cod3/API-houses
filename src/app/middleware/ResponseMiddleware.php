@@ -22,10 +22,12 @@ class ResponseMiddleware implements MiddlewareInterface
      */
     public function afterExecuteRoute(Event $event, Micro $app)
     {
-        $app->response
-            ->setHeader("Content-Type", "application/json")
-            ->setJsonContent($app->getReturnedValue())
-            ->send();
+        if(!$app->response->isSent()){
+            $app->response
+                ->setHeader("Content-Type", "application/json")
+                ->setJsonContent($app->getReturnedValue())
+                ->send();
+        }
         return false;
     }
 

@@ -19,7 +19,7 @@ class HouseController extends ControllerBase
 
     public function edit(int $id)
     {
-        echo "HouseController edit";
+        return HousesManager::editHouse($this->application, $id);
     }
 
     public function remove(int $id)

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\Response;
 use App\Models\Houses;
+use App\Models\Permissions;
 use App\Models\Rooms;
 use App\Models\RoomTypes;
 use Phalcon\Mvc\Micro;
@@ -11,7 +12,7 @@ use Phalcon\Mvc\Micro;
 class HousesManager
 {
     /**
-     * Create all the transaction of the creation of an house
+     * Create all the transaction of the creation of a house
      *
      * @param Micro $app
      * @return array
@@ -46,6 +47,69 @@ class HousesManager
 
         if($rooms){
             $house->Rooms = $rooms;
+        }
+
+        if($house->save()){
+            return Response::responseWrapper(
+                "success",
+                $house->toArray([
+                    "id",
+                    "city",
+                    "street",
+                    "zip_code",
+                    "number",
+                    "addition"
+                ])
+            );
+        } else {
+            $errors = [];
+            foreach($house->getMessages() as $message){
+                array_push($errors, (string) $message);
+            }
+            return Response::responseWrapper("fail", $errors);
+        }
+    }
+
+    /**
+     * Update a house and rooms
+     *
+     * @param Micro $app
+     * @param int $id
+     * @return array
+     **/
+    public static function editHouse(Micro $app, int $id)
+    {
+        $house = Houses::findFirst($id);
+        if(!$house){
+            return $app->response->setStatusCode(404, "Not Found")->send();
+        }
+        if($app->jwt->getUser()->Roles->name != "Admin" || $app->jwt->getUser()->id != $house->user_id){
+            return $app->response->setStatusCode(403, "Forbidden")->send();
+        }
+        $house->assign(
+        $app->request->getPut(),
+        [
+            "city",
+            "street",
+            "number",
+            "addition"
+            ]
+        );
+
+        $house->zip_code = $app->request->getPut("zipCode");
+
+        foreach ($app->request->getPut("rooms") ?? [] as $roomPut) {
+            $house->Rooms->filter( function($room) use ($roomPut) {
+                if($room->id == $roomPut["id"]){
+                    return $room->assign($roomPut, [
+                        "type_id",
+                        "width",
+                        "length",
+                        "height"
+                    ]);
+                    $room->save();
+                }
+            });
         }
 
         if($house->save()){
