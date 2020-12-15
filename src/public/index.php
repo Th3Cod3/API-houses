@@ -44,5 +44,8 @@ try {
 
     $app->handle($_SERVER['REQUEST_URI']);
 } catch (\Exception $e) {
-    echo json_encode(["error" => $e->getMessage()]);
+    echo json_encode([
+        "status" => "error",
+        "message" => $e->getMessage()
+    ]);
 }
