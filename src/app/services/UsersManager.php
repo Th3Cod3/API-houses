@@ -44,11 +44,7 @@ class UsersManager
                 ])
             );
         } else {
-            $errors = [];
-            foreach($user->getMessages() as $message){
-                array_push($errors, (string) $message);
-            }
-            return Response::responseWrapper("fail", $errors);
+            return Response::modelError($user);
         }
     }
 
@@ -69,6 +65,7 @@ class UsersManager
 
         $lastFailMinutesAgo = !$user ?: ((new \DateTime())->getTimestamp() - (new \DateTime($user->last_fail))->getTimestamp()) / 60;
 
+        // verify if user is not locked and password is valid
         if(
             $user
             && ($user->fail_counter < $_ENV["LOCK_FAIL_COUNTER"] || $lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"])
@@ -97,7 +94,7 @@ class UsersManager
                 $user->last_fail = date("Y-m-d H:i:s");
                 $user->save();
             } else {
-                $lockTime = \ceil($_ENV['USER_LOCK_TIME'] - $lastFailMinutesAgo);
+                $lockTime = ceil($_ENV['USER_LOCK_TIME'] - $lastFailMinutesAgo);
                 return Response::responseWrapper("fail", "This user is locked. Wait $lockTime minutes");
             }
         }

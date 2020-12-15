@@ -62,11 +62,7 @@ class HousesManager
                 ])
             );
         } else {
-            $errors = [];
-            foreach($house->getMessages() as $message){
-                array_push($errors, (string) $message);
-            }
-            return Response::responseWrapper("fail", $errors);
+            return Response::modelError($house);
         }
     }
 
@@ -75,24 +71,23 @@ class HousesManager
      *
      * @param Micro $app
      * @param int $id
-     * @return array
+     * @return array|null
      **/
     public static function editHouse(Micro $app, int $id)
     {
         $house = Houses::findFirst($id);
-        if(!$house){
-            return $app->response->setStatusCode(404, "Not Found")->send();
+
+        if(!self::permissions($house, $app)){
+            return;
         }
-        if($app->jwt->getUser()->Roles->name != "Admin" || $app->jwt->getUser()->id != $house->user_id){
-            return $app->response->setStatusCode(403, "Forbidden")->send();
-        }
+
         $house->assign(
-        $app->request->getPut(),
-        [
-            "city",
-            "street",
-            "number",
-            "addition"
+            $app->request->getPut(),
+            [
+                "city",
+                "street",
+                "number",
+                "addition"
             ]
         );
 
@@ -125,11 +120,7 @@ class HousesManager
                 ])
             );
         } else {
-            $errors = [];
-            foreach($house->getMessages() as $message){
-                array_push($errors, (string) $message);
-            }
-            return Response::responseWrapper("fail", $errors);
+            return Response::modelError($house);
         }
     }
 
@@ -145,5 +136,25 @@ class HousesManager
             "success",
             $rooms->toArray()
         );
+    }
+
+    /**
+     * Verify if a user have permission to manipulate with the object
+     *
+     * @param Houses $id
+     * @param Micro $app
+     * @return bool
+     **/
+    private static function permissions(Houses $house, Micro $app)
+    {
+        if(!$house){
+            $app->response->setStatusCode(404, "Not Found")->send();
+            return false;
+        }
+        if($app->jwt->getUser()->Roles->name != "Admin" || $app->jwt->getUser()->id != $house->user_id){
+            $app->response->setStatusCode(403, "Forbidden")->send();
+            return false;
+        }
+        return true;
     }
 }
