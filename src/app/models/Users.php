@@ -169,4 +169,27 @@ class Users extends Model
         $this->updated_at = date("Y-m-d H:i:s");
     }
 
+    /**
+     * return the user and person data
+     * 
+     * @return array
+     */
+    public function toArrayWithPerson()
+    {
+        return array_merge(
+            $this->toArray([
+                "username",
+                "email"
+            ]),
+            $this->Persons->toArray([
+                "first_name",
+                "last_name",
+                "middle_name",
+                "birthdate",
+                "gender"
+            ]),
+            ["role" => $this->Roles->name]
+        );
+    }
+
 }

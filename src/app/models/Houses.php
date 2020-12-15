@@ -96,7 +96,9 @@ class Houses extends Model
     }
 
     /**
-     * Set all default values.
+     * return the house and rooms data
+     * 
+     * @return array
      */
     public function toArrayWithRooms()
     {

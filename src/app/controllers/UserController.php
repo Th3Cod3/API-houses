@@ -14,17 +14,7 @@ class UserController extends ControllerBase
 
     public function get(int $id)
     {
-        echo "UserController get";
-    }
-
-    public function list()
-    {
-        echo "UserController list";
-    }
-
-    public function permissions()
-    {
-        echo "UserController permissions";
+        return UsersManager::getUser($this->application, $id);
     }
 
 }

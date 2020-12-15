@@ -37,11 +37,7 @@ class UsersManager
         if($user->save()){
             return Response::responseWrapper(
                 "success",
-                $user->toArray([
-                    "id",
-                    "username",
-                    "email"
-                ])
+                $user->toArrayWithPerson()
             );
         } else {
             return Response::modelError($user);
@@ -101,5 +97,27 @@ class UsersManager
 
         $app->security->hash(rand());
         return Response::responseWrapper("fail", "Invalid username of password");
+    }
+
+    /**
+     * Retrieve a user
+     *
+     * @param Micro $app
+     * @param int $id
+     * @return array|null
+     **/
+    public static function getUser(Micro $app, int $id)
+    {
+        $user = Users::findFirst($id);
+
+        if(!$user){
+            $app->response->setStatusCode(404, "Not Found")->send();
+            return false;
+        }
+
+        return Response::responseWrapper(
+            "success",
+            $user->toArrayWithPerson()
+        );
     }
 }
