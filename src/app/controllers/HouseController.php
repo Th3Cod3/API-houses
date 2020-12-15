@@ -24,7 +24,7 @@ class HouseController extends ControllerBase
 
     public function remove(int $id)
     {
-        echo "HouseController remove";
+        return HousesManager::removeHouse($this->application, $id);
     }
 
     public function types()

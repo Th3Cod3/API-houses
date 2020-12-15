@@ -125,6 +125,27 @@ class HousesManager
     }
 
     /**
+     * Remove a house and rooms
+     *
+     * @param Micro $app
+     * @param int $id
+     * @return array
+     **/
+    public static function removeHouse(Micro $app, int $id)
+    {
+        $house = Houses::findFirst($id);
+        if(!self::permissions($house, $app)){
+            return;
+        }
+
+        if($house->delete()){
+            return Response::responseWrapper("success", true);
+        } else {
+            return Response::modelError($house);
+        }
+    }
+
+    /**
      * Create all the transaction of the creation of an house
      *
      * @return array
@@ -151,7 +172,7 @@ class HousesManager
             $app->response->setStatusCode(404, "Not Found")->send();
             return false;
         }
-        if($app->jwt->getUser()->Roles->name != "Admin" || $app->jwt->getUser()->id != $house->user_id){
+        if($app->jwt->getUser()->Roles->name != "Admin" && $app->jwt->getUser()->id != $house->user_id){
             $app->response->setStatusCode(403, "Forbidden")->send();
             return false;
         }
