@@ -11,6 +11,10 @@ use Phalcon\Mvc\Micro;
 
 class HousesManager
 {
+    const BEDROOM_TYPE_ID = 2;
+
+    const TOILET_TYPE_ID = 3;
+
     /**
      * Create all the transaction of the creation of a house
      *
@@ -129,6 +133,38 @@ class HousesManager
         return Response::responseWrapper(
             "success",
             $house->toArrayWithRooms()
+        );
+    }
+
+    /**
+     * Search for houses with rooms
+     *
+     * @param Micro $app
+     * @return array|null
+     **/
+    public static function searchHouse(Micro $app)
+    {
+        $houses = Houses::query()
+            ->innerJoin(Rooms::class, null, "r")
+            ->groupBy("r.house_id")
+            ->where("CONCAT(street, city, zip_code) LIKE :search:")
+            ->having("COUNT(r.type_id = :type_id_bedroom:) >= :bedroomsCount: AND COUNT(r.type_id = :type_id_toilet:) >= :toiletCount:")
+            ->bind([
+                "bedroomsCount" => $app->request->get("minimalBedroomsCount", null, 0),
+                "type_id_bedroom" => self::BEDROOM_TYPE_ID,
+                "toiletCount" => $app->request->get("minimalToiletCount", null, 0),
+                "type_id_toilet" => self::TOILET_TYPE_ID,
+                "search" => "%" . str_replace(" ", "%", $app->request->get("search", null, "")) . "%"
+            ])->execute();
+
+        $housesArray = [];
+        foreach ($houses as $house) {
+            array_push($housesArray, $house->toArrayWithRooms());
+        }
+
+        return Response::responseWrapper(
+            "success",
+            $housesArray
         );
     }
 

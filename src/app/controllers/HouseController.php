@@ -32,9 +32,9 @@ class HouseController extends ControllerBase
         return HousesManager::allRoomType($this->application);
     }
 
-    public function list()
+    public function search()
     {
-        echo "HouseController list";
+        return HousesManager::searchHouse($this->application);
     }
 
 }

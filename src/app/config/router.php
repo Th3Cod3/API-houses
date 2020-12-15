@@ -36,7 +36,7 @@ $house->setHandler(new HouseController)
     ->put('/{id:[0-9]*}', 'edit')
     ->delete('/{id:[0-9]*}', 'remove')
     ->get('/room_types', 'types')
-    ->get('/list', 'list');
+    ->get('/search', 'search');
 
 $app->mount($house);
 
