@@ -210,7 +210,7 @@ class HousesManager
      * @param Micro $app
      * @return bool
      **/
-    private static function permissions(Houses $house, Micro $app)
+    private static function permissions(Houses $house = null, Micro $app)
     {
         if(!$house){
             $app->response->setStatusCode(404, "Not Found")->send();
