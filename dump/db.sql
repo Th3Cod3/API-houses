@@ -125,26 +125,12 @@ INSERT INTO roles (id, name) VALUES
 (2, "Admin");
 
 INSERT INTO permissions (id, name) VALUES
-(1, "create_user"),
-(2, "create_house"),
-(3, "edit_all_houses"),
-(4, "edit_own_houses"),
-(5, "house_list"),
-(6, "delete_own_house"),
-(7, "delete_all_house");
+(1, "edit_all_houses"),
+(2, "delete_all_house");
 
 INSERT INTO role_permissions (role_id, permission_id) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(2, 2),
-(2, 4),
-(2, 5),
-(2, 6);
+(2, 1),
+(2, 2);
 
 INSERT INTO room_types (id, name) VALUES
 (1, "Living room"),
