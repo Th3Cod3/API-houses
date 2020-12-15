@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS persons (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     middle_name VARCHAR(100) NULL,
-    birthdate DATETIME NOT NULL,
+    birthdate DATE NOT NULL,
     gender ENUM('F', 'M', 'U') NOT NULL DEFAULT 'U', -- U = undefined
     deleted_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS roles (
 
 CREATE TABLE IF NOT EXISTS permissions (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL
-    PRIMARY KEY (id),
+    name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS role_permissions (
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL UNIQUE,
     person_id INT NOT NULL UNIQUE,
     role_id INT NOT NULL,
-    jti VARCHAR(15) NULL,
+    jti VARCHAR(16) NULL,
     last_login TIMESTAMP NULL,
     last_fail TIMESTAMP NULL,
     fail_counter TINYINT(1) NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS houses (
     street VARCHAR(100) NOT NULL,
     zip_code VARCHAR(10) NOT NULL,
     number INT NOT NULL,
-    addition VARCHAR(20) NOT NULL,
+    addition VARCHAR(20) NULL,
     deleted_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -139,3 +139,12 @@ INSERT INTO room_types (id, name) VALUES
 (4, "Storage"),
 (5, "Bathroom"),
 (6, "Garage");
+
+INSERT INTO persons (id, first_name, last_name, birthdate, gender) VALUES
+(1, "User", "dtt", "1994-12-30", "M"),
+(2, "Admin", "dtt", "1994-12-30", "F");
+
+INSERT INTO users (id, username, password, email, person_id, role_id) VALUES
+(1, "User", "$2y$10$XjQpZn8hO87C0FxN6pYCze9eq1ye1t7XcSV51yjaIi18fXuOAqAvS", "dtt1@dtt-nl.com", 1, 1),
+(2, "Admin", "$2y$10$XjQpZn8hO87C0FxN6pYCze9eq1ye1t7XcSV51yjaIi18fXuOAqAvS", "dtt2@dtt-nl.com", 2, 2);
+
