@@ -52,14 +52,7 @@ class HousesManager
         if($house->save()){
             return Response::responseWrapper(
                 "success",
-                $house->toArray([
-                    "id",
-                    "city",
-                    "street",
-                    "zip_code",
-                    "number",
-                    "addition"
-                ])
+                $house->toArrayWithRooms()
             );
         } else {
             return Response::modelError($house);
@@ -67,7 +60,7 @@ class HousesManager
     }
 
     /**
-     * Update a house and rooms
+     * retrieve a house with rooms
      *
      * @param Micro $app
      * @param int $id
@@ -110,18 +103,33 @@ class HousesManager
         if($house->save()){
             return Response::responseWrapper(
                 "success",
-                $house->toArray([
-                    "id",
-                    "city",
-                    "street",
-                    "zip_code",
-                    "number",
-                    "addition"
-                ])
+                $house->toArrayWithRooms()
             );
         } else {
             return Response::modelError($house);
         }
+    }
+
+    /**
+     * retrieve a house with rooms
+     *
+     * @param Micro $app
+     * @param int $id
+     * @return array|null
+     **/
+    public static function getHouse(Micro $app, int $id)
+    {
+        $house = Houses::findFirst($id);
+
+        if(!$house){
+            $app->response->setStatusCode(404, "Not Found")->send();
+            return false;
+        }
+
+        return Response::responseWrapper(
+            "success",
+            $house->toArrayWithRooms()
+        );
     }
 
     /**
@@ -162,7 +170,7 @@ class HousesManager
     /**
      * Verify if a user have permission to manipulate with the object
      *
-     * @param Houses $id
+     * @param Houses $house
      * @param Micro $app
      * @return bool
      **/

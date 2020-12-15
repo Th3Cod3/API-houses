@@ -95,4 +95,30 @@ class Houses extends Model
         $this->updated_at = date("Y-m-d H:i:s");
     }
 
+    /**
+     * Set all default values.
+     */
+    public function toArrayWithRooms()
+    {
+        return array_merge(
+            $this->toArray([
+                "id",
+                "city",
+                "street",
+                "zip_code",
+                "number",
+                "addition"
+            ]),
+            [ "rooms" => $this->Rooms->filter(function($room) {
+                    return $room->toArray([
+                        "type_id",
+                        "width",
+                        "length",
+                        "height"
+                    ]);
+                })
+            ]
+        );
+    }
+
 }

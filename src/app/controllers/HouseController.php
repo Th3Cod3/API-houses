@@ -14,7 +14,7 @@ class HouseController extends ControllerBase
 
     public function get(int $id)
     {
-        echo "HouseController get";
+        return HousesManager::getHouse($this->application, $id);
     }
 
     public function edit(int $id)
