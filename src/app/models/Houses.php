@@ -113,6 +113,7 @@ class Houses extends Model
             ]),
             [ "rooms" => $this->Rooms->filter(function($room) {
                     return $room->toArray([
+                        "id",
                         "type_id",
                         "width",
                         "length",
