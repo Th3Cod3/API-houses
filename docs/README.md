@@ -10,21 +10,21 @@ This is an API REST maked with Phalcon 4.1
   - [API Cycle](#api-cycle)
 
 ## File Structure
-+-- devops
-+-- dump
-+-- src
-|    +-- app
-|    |   +-- config
-|    |   +-- controllers
-|    |   +-- helpers
-|    |   +-- middleware
-|    |   +-- migrations
-|    |   +-- models
-|    |   +-- modules
-|    |   +-- modules
-|    |   +-- services
-|    +-- public
-|    +-- vendor
++-- devops  
++-- dump  
++-- src  
+|    +-- app  
+|    |   +-- config  
+|    |   +-- controllers  
+|    |   +-- helpers  
+|    |   +-- middleware  
+|    |   +-- migrations  
+|    |   +-- models  
+|    |   +-- modules  
+|    |   +-- modules  
+|    |   +-- services  
+|    +-- public  
+|    +-- vendor  
 
 ## API Cycle
 ![life cycle](img/life-cycle.PNG)
