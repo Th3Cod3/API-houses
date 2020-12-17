@@ -15,7 +15,8 @@
     "require-dev": {
         "codeception/codeception": "^4.1.6",
         "phalcon/ide-stubs": "^4.0.6",
-        "phpunit/phpunit": "^8.4"
+        "phpunit/phpunit": "^8.4",
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {
