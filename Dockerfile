@@ -114,7 +114,7 @@ RUN composer global require "squizlabs/php_codesniffer=*"
 
 # Setup working directory
 WORKDIR /var/www/html
-COPY ["src/composer.json", "src/composer.json", "/var/www/html/"]
+COPY ["src/composer.json", "/var/www/html/"]
 RUN composer install
 
 # Print CA certificate
