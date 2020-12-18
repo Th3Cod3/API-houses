@@ -8,6 +8,7 @@ This is an API REST maked with Phalcon 4.1
   - [Table of Content](#table-of-content)
   - [File Structure](#file-structure)
   - [API Cycle](#api-cycle)
+  - [ER-Diagram](#er-diagram)
 
 ## File Structure
 +-- devops  
@@ -28,3 +29,6 @@ This is an API REST maked with Phalcon 4.1
 
 ## API Cycle
 ![life cycle](img/life-cycle.PNG)
+
+## ER-Diagram
+![er-diagram](img/ER-diagram.PNG)
