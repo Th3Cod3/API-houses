@@ -26,6 +26,21 @@ Run the command `mysql -u <user> -p<password> -D <db_name> << db` into the `dump
 Run the command `php cli.php seeder houses <amount>` into the `src` folder to create a certain amount of house with fake data into the db.  
 Copy the `src\.env.sample`, saved as `src\.env` and edit the variables.  
 
+# Env
+
+|Variable                       |Description                                                            |
+|-------------------------------|-----------------------------------------------------------------------|
+|`JWT_KEY=<secret>`             |The encryption token. Make a random base64url string.                  |
+|`JWT_TIMEOUT=<days>`           |The amount of days the JWT token will be valid.                        |
+|`JWT_ISSUED_BY=<domain>`       |The domain which this API is provide.                                  |
+|`USER_LOCK_TIME=<minutes>`     |To prevent force-attack the user will be lock for an amount of time.   |
+|`LOCK_FAIL_COUNTER=<times>`    |The times a user can fail before lock the user account.                |
+|`DB_HOST=<host>`               |Database domain/ip.                                                    |
+|`DB_PORT=<port>`               |Database port, normally `3306`.                                        |
+|`DB_USERNAME=<user>`           |Database user                                                          |
+|`DB_PASSWORD=<password>`       |Database password                                                      |
+|`DB_NAME=<db_name>`            |Database name                                                          |
+
 # INFO
 ## Users permissions
 * `User`  
