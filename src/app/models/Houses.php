@@ -103,25 +103,45 @@ class Houses extends Model
     public function toArrayWithRooms()
     {
         return array_merge(
-            $this->toArray([
-                "id",
-                "city",
-                "street",
-                "zip_code",
-                "number",
-                "addition"
-            ]),
+            $this->toArray($this->getGetFormat()),
             [ "rooms" => $this->Rooms->filter(function($room) {
-                    return $room->toArray([
-                        "id",
-                        "type_id",
-                        "width",
-                        "length",
-                        "height"
-                    ]);
+                    return $room->toArray($room->getGetFormat());
                 })
             ]
         );
+    }
+
+    /**
+     * Default format to assign into an update or insert
+     *
+     * @return array
+     */
+    public function getSetFormat()
+    {
+        return [
+            "city",
+            "street",
+            "number",
+            "addition",
+            "zip_code",
+        ];
+    }
+
+    /**
+     * Default format to assign into a select
+     *
+     * @return array
+     */
+    public function getGetFormat()
+    {
+        return [
+            "id",
+            "city",
+            "street",
+            "number",
+            "addition",
+            "zip_code",
+        ];
     }
 
 }

@@ -88,4 +88,35 @@ class Rooms extends Model
     {
         $this->updated_at = date("Y-m-d H:i:s");
     }
+
+    /**
+     * Default format to assign into an update or insert
+     *
+     * @return array
+     */
+    public function getSetFormat()
+    {
+        return [
+            "type_id",
+            "width",
+            "length",
+            "height"
+        ];
+    }
+
+    /**
+     * Default format to assign into a select
+     *
+     * @return array
+     */
+    public function getGetFormat()
+    {
+        return [
+            "id",
+            "type_id",
+            "width",
+            "length",
+            "height"
+        ];
+    }
 }
