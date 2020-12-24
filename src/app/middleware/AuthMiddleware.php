@@ -9,9 +9,6 @@ use Phalcon\Mvc\Micro;
 
 class AuthMiddleware implements MiddlewareInterface
 {
-    /** @var array NO_AUTH_NEEDED here comes all the routes that don't require authentication */
-    const NO_AUTH_NEEDED = [];
-
     /**
      * Before anything happens
      *
@@ -22,17 +19,11 @@ class AuthMiddleware implements MiddlewareInterface
      */
     public function beforeHandleRoute(Event $event, Micro $app)
     {
-        $request = $app->request;
-        if(!preg_match("/\/+login\/*/", $request->getQuery("_url"))){
-            if($token = Http::trimAuth($request)) {
-                if($app->jwt->parse($token)->validate()){
-                    return true;
-                }
-            }
-            $app->response->setStatusCode(401, "Unauthorized")->send();
-            return false;
+        // get JWT token from header
+        if ($token = Http::trimAuth($app->request)) {
+            // parse token
+            $app->jwt->parse($token);
         }
-
     }
 
     /**

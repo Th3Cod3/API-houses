@@ -39,6 +39,3 @@ $house->setHandler(new HouseController)
     ->get('/search', 'search');
 
 $app->mount($house);
-
-
-

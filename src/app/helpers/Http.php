@@ -14,7 +14,7 @@ class Http
      **/
     public static function trimAuth(Request $request)
     {
-        preg_match("/^Baerer (.*)$/", $request->getHeader("Authorization"), $matches);
+        preg_match("/^Baerer (.*)$/", trim($request->getHeader("Authorization")), $matches);
         return $matches[1] ?? false;
     }
 }

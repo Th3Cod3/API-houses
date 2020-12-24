@@ -2,6 +2,8 @@
 
 namespace App\Middleware;
 
+use App\Helpers\Http;
+use App\Helpers\Response;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro;
@@ -17,7 +19,8 @@ class AclMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function beforeExecuteRoute(Event $event, Micro $app) {
+    public function beforeExecuteRoute(Event $event, Micro $app)
+    {
         $handlerInfo = $app->getActiveHandler();
 
         // get the controller and method
@@ -31,11 +34,25 @@ class AclMiddleware implements MiddlewareInterface
             return true;
         }
 
-        // Verify if allowed
+        // if it's not a public entry, verify token.
+        if (!$app->jwt->validate()) {
+            $app->response
+                ->setStatusCode(401, "Unauthorized")
+                ->setHeader("Content-Type", "application/json")
+                ->setJsonContent(Response::errorResponse("You have to login."))
+                ->send();
+            return false;
+        }
+
+        // Verify if role is allowed
         $role = $app->jwt->getUser()->Roles->name;
         $allowed = $app->acl->isAllowed($role, $controller, $action);
-        if(!$allowed){
-            $app->response->setStatusCode(403, "Forbidden")->send();
+        if (!$allowed) {
+            $app->response
+                ->setStatusCode(403, "Forbidden")
+                ->setHeader("Content-Type", "application/json")
+                ->setJsonContent(Response::errorResponse("You don't have permissions."))
+                ->send();
             return false;
         }
     }
@@ -47,7 +64,8 @@ class AclMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $app){
+    public function call(Micro $app)
+    {
         return true;
     }
 }
