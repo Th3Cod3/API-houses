@@ -177,19 +177,33 @@ class Users extends Model
     public function toArrayWithPerson()
     {
         return array_merge(
-            $this->toArray([
-                "username",
-                "email"
-            ]),
-            $this->Persons->toArray([
-                "first_name",
-                "last_name",
-                "middle_name",
-                "birthdate",
-                "gender"
-            ]),
+            $this->toArray($this->getGetFormat()),
+            $this->Persons->toArray($this->Persons->getGetFormat()),
             ["role" => $this->Roles->name]
         );
+    }
+
+    /**
+     * Default format to assign into an update or insert
+     *
+     * @return array
+     */
+    public function getSetFormat()
+    {
+        return [
+            "username",
+            "email"
+        ];
+    }
+
+    /**
+     * Default format to assign into a select
+     *
+     * @return array
+     */
+    public function getGetFormat()
+    {
+        return $this->getSetFormat();
     }
 
 }

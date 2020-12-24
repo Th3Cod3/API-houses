@@ -71,4 +71,30 @@ class Persons extends Model
         $this->hasOne('id', Users::class, 'person_id', ['alias' => 'Users']);
     }
 
+    /**
+     * Default format to assign into an update or insert
+     *
+     * @return array
+     */
+    public function getSetFormat()
+    {
+        return [
+            "first_name",
+            "last_name",
+            "middle_name",
+            "birthdate",
+            "gender",
+        ];
+    }
+
+    /**
+     * Default format to assign into a select
+     *
+     * @return array
+     */
+    public function getGetFormat()
+    {
+        return $this->getSetFormat();
+    }
+
 }
