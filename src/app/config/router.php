@@ -4,14 +4,14 @@
  * @var $app
  */
 
-use App\Controllers\IndexController;
+use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\HouseController;
 use Phalcon\Mvc\Micro\Collection;
 
 $api = new Collection;
 
-$api->setHandler(new IndexController)
+$api->setHandler(new AuthController)
     ->post('/login', 'login');
 
 $app->mount($api);
