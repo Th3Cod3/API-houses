@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Helpers\Response;
 use App\Repositories\UsersRepository;
 
-class IndexController extends ControllerBase
+class AuthController extends ControllerBase
 {
     /**
      * Verify username and password matches and generate a JWT token

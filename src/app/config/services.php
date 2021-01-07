@@ -65,7 +65,7 @@ $di->setShared('jwt', function () {
 });
 
 /**
- * Shared jwt
+ * Shared acl
  */
 $di->setShared('acl', function () {
 

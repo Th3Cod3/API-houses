@@ -29,8 +29,8 @@ class AclMiddleware implements MiddlewareInterface
         $controllerName = str_replace('App\\Controllers\\', '', $controllerName);
         $controller = str_replace('Controller', '', $controllerName);
 
-        // Index is public access
-        if ($controller === 'Index') {
+        // Auth is public access
+        if ($controller === 'Auth') {
             return true;
         }
 
