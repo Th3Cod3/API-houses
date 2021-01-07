@@ -1,8 +1,15 @@
 # Docker
 If you want to use the containers you can just run the following instruction:  
 
+* Edit container args into `docker-compose.yml`  
+  * `DOMAIN=<domain>` For the domain request
+  * `SSL_SELF_SIGNED=<0|1>` 1 to setup self-signed certificate or 0 to set without ssl  
+  * `docker-compose up -d --build` to build the container again  
 * Run docker-compose  
-  * `docker-compose up -d`  
+  * `docker-compose up -d` if it's the first time  
+  * `docker-compose up -d --build` to build the container again  
+
+## if you use the self-signed certificate
 * Add the host, override DNS.  
   * Windows: `C:\Windows\System32\drivers\etc\host` open as Administrator.  
   * Mac OS/Linux: `/etc/hosts`.  

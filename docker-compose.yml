@@ -2,7 +2,11 @@ version: "3"
 
 services:
   dtt:
-    build: ./
+    build:
+      context: .
+      args:
+        - DOMAIN=dev.th3cod3.com
+        - SSL_SELF_SIGNED=0
     volumes:
       - ./src:/var/www/html
       - ./devops/php.ini:/usr/local/etc/php/php.ini
