@@ -32,5 +32,13 @@ return new Config([
         'modelsDir'      => APP_PATH . '/models/',
         'cacheDir'       => BASE_PATH . '/cache/',
         'baseUri'        => '/',
+    ],
+    "jwt" => [
+        "timeout" => 144,
+        "issuedBy" => "http://dev.th3cod3.com",
+    ],
+    "lock" => [
+        "UserLockTime" => 15,
+        "lockFailCounter" => 15
     ]
 ]);

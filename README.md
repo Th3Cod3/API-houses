@@ -12,6 +12,11 @@ If you want to use the containers you can just run the following instruction:
 
 # Installation with Docker Container
 Run the command `php cli.php seeder houses <amount>` into the `src` folder to create a certain amount of house with fake data into the db.  
+Setup jwt and lock configuration into `src\config\config.php`  
+* `"jwtTimeout" => "<days>"` The amount of days the JWT token will be valid.  
+* `"jwtIssuedBy" => "<domain>"` The domain which this API is provide.  
+* `"userLockTime" => "<minutes>"` To prevent force-attack the user will be lock for an amount of time.  
+* `"lockFailCounter" => "<times>"` The times a user can fail before lock the user account.  
 Copy the `src\.env.sample`, saved as `src\.env` and edit the variables.  
 
 # Installation without Docker Container
@@ -31,10 +36,6 @@ Copy the `src\.env.sample`, saved as `src\.env` and edit the variables.
 |Variable                       |Description                                                            |
 |-------------------------------|-----------------------------------------------------------------------|
 |`JWT_KEY=<secret>`             |The encryption token. Make a random base64url string.                  |
-|`JWT_TIMEOUT=<days>`           |The amount of days the JWT token will be valid.                        |
-|`JWT_ISSUED_BY=<domain>`       |The domain which this API is provide.                                  |
-|`USER_LOCK_TIME=<minutes>`     |To prevent force-attack the user will be lock for an amount of time.   |
-|`LOCK_FAIL_COUNTER=<times>`    |The times a user can fail before lock the user account.                |
 |`DB_HOST=<host>`               |Database domain/ip.                                                    |
 |`DB_PORT=<port>`               |Database port, normally `3306`.                                        |
 |`DB_USERNAME=<user>`           |Database user                                                          |

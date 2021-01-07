@@ -16,6 +16,7 @@ class IndexController extends ControllerBase
      **/
     public function login()
     {
+        $config = $this->application->config;
         $user = UsersRepository::getUserByUsername($this->application->request->getPost("username"));
 
         $lastFailMinutesAgo = !$user ?: ((new \DateTime())->getTimestamp() - (new \DateTime($user->last_fail ?: ""))->getTimestamp()) / 60;
@@ -23,7 +24,7 @@ class IndexController extends ControllerBase
         // verify if user is not locked and password is valid
         if (
             $user
-            && ($user->fail_counter < $_ENV["LOCK_FAIL_COUNTER"] || $lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"])
+            && ($user->fail_counter < $config->lock->lockFailCounter || $lastFailMinutesAgo > $config->lock->userLockTime)
             && $this->application->request->getPost("password")
             && $this->application->security->checkHash($this->application->request->getPost("password"), $user->password)
         ) {
@@ -35,15 +36,15 @@ class IndexController extends ControllerBase
         } else if ($user) { // Lock user after multiple fail login
 
             // reset lock counter
-            if ($lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"]) {
+            if ($lastFailMinutesAgo > $config->lock->userLockTime) {
                 UsersRepository::resetCounter($user);
             }
 
             // verify if user is lock otherwise count fail
-            if ($user->fail_counter < $_ENV["LOCK_FAIL_COUNTER"] || $lastFailMinutesAgo > $_ENV["USER_LOCK_TIME"]) {
+            if ($user->fail_counter < $config->lock->lockFailCounter || $lastFailMinutesAgo > $config->lock->userLockTime) {
                 UsersRepository::countFail($user);
             } else {
-                $lockTime = ceil($_ENV['USER_LOCK_TIME'] - $lastFailMinutesAgo);
+                $lockTime = ceil($config->lock->userLockTime - $lastFailMinutesAgo);
                 return Response::responseWrapper("fail", "This user is locked. Wait $lockTime minutes");
             }
         }

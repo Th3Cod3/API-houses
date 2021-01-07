@@ -15,22 +15,30 @@ use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 
 class JWT
 {
-    /** @var Token $token description */
+    /** @var Token $token */
     private $token;
 
-    /** @var Configuration $config description */
+    /** @var Configuration $config */
     private $config;
 
-    /** @var Users $config description */
+    /** @var Users $config */
     private $user;
+
+    /** @var string $issuedBy */
+    private $issuedBy;
+
+    /** @var int $timeout */
+    private $timeout;
 
     /**
      * Prepare signer and key
      *
      * @return JWT
      **/
-    public function __construct()
+    public function __construct(string $issuedBy, int $timeout)
     {
+        $this->issuedBy = $issuedBy;
+        $this->timeout = $timeout;
         $this->config = Configuration::forSymmetricSigner(
             new Sha256(),
             InMemory::base64Encoded($_ENV["JWT_KEY"])
@@ -52,11 +60,11 @@ class JWT
         $now = new \DateTimeImmutable();
         $this->token = $this->config
             ->builder()
-            ->issuedBy($_ENV["JWT_ISSUED_BY"])
+            ->issuedBy($this->issuedBy)
             ->withClaim('uid', $uid)
             ->identifiedBy($jti)
             ->issuedAt($now)
-            ->expiresAt($now->modify("+{$_ENV['JWT_TIMEOUT']} hours"))
+            ->expiresAt($now->modify("+{$this->timeout} hours"))
             ->getToken($this->config->signer(), $this->config->signingKey());
 
         return $this;
@@ -101,7 +109,7 @@ class JWT
         $constraints = [
             new IdentifiedBy($this->getUser()->jti),
             new ValidAt($clock),
-            new IssuedBy($_ENV["JWT_ISSUED_BY"])
+            new IssuedBy($this->issuedBy)
         ];
 
         try{

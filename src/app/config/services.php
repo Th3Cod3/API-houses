@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use App\Modules\JWT;
@@ -26,14 +27,12 @@ $di->setShared('url', function () {
     return $url;
 });
 
-
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
 $di->setShared('modelsMetadata', function () {
     return new MetaDataAdapter();
 });
-
 
 /**
  * Database connection is created based in the parameters defined in the configuration file
@@ -61,7 +60,8 @@ $di->setShared('db', function () {
  * Shared jwt
  */
 $di->setShared('jwt', function () {
-    return new JWT();
+    $config = $this->getConfig();
+    return new JWT($config->jwt->issuedBy, $config->jwt->timeout);
 });
 
 /**
